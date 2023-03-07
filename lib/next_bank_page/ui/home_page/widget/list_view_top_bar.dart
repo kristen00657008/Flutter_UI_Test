@@ -8,13 +8,19 @@ class ListViewTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<NextBankPageBloc>(context);
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.3,
+    return AnimatedContainer(
+      duration: Duration.zero,
+      width: MediaQuery.of(context).size.width,
       height: bloc.listViewTopBarHeight,
-      margin: EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(
-        color: Colors.grey[400],
-        borderRadius: BorderRadius.circular(15),
+      padding: EdgeInsets.symmetric(
+        vertical: bloc.listViewTopBarHeight / 2.5,
+        horizontal: MediaQuery.of(context).size.width * 0.35,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius: BorderRadius.circular(15),
+        ),
       ),
     );
   }

@@ -28,7 +28,9 @@ class _CardOriginViewState extends State<CardOriginView>
       child: Center(
         child: InkWell(
           onTap: () {
-            bloc.add(CardShowAnimEvent());
+            if(bloc.state is OriginState) {
+              bloc.add(CardShowAnimEvent());
+            }
           },
           child: CardView(),
         ),

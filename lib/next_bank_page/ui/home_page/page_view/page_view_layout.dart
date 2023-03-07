@@ -5,10 +5,10 @@ import 'package:flutter_ui_test/next_bank_page/next_bank_page_bloc.dart';
 import 'first_page/first_page_view.dart';
 import 'second_page/second_page_view.dart';
 
-class PageViewOriginLayout extends StatelessWidget {
+class PageViewLayout extends StatelessWidget {
   final ViewState state;
 
-  const PageViewOriginLayout({Key? key, required this.state}) : super(key: key);
+  const PageViewLayout({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

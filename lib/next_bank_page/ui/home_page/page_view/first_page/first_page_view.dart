@@ -19,7 +19,9 @@ class _FirstPageViewState extends State<FirstPageView> {
     return GestureDetector(
       onVerticalDragUpdate: (detail) {
         if (detail.delta.dy < -0.5) {
-          bloc.add(PageViewExpandingEvent());
+          if(bloc.state is OriginState) {
+            bloc.add(PageViewExpandingEvent());
+          }
         }
       },
       child: Align(

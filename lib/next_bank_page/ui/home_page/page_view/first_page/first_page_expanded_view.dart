@@ -14,15 +14,16 @@ class FirstPageExpandedView extends StatefulWidget {
 
 class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
   late NextBankPageBloc bloc;
-  ScrollController scrollController = ScrollController();
+
 
   @override
   void initState() {
     super.initState();
     bloc = BlocProvider.of<NextBankPageBloc>(context);
-    scrollController.addListener(() {
-      if (scrollController.offset < -50) {
-        if (bloc.state is! PageViewAnimatingState) {
+    bloc.listViewScrollController = ScrollController();
+    bloc.listViewScrollController.addListener(() {
+      if (bloc.listViewScrollController.offset < -50) {
+        if (bloc.state is PageViewShowState) {
           bloc.closePageView();
         }
       }
@@ -30,21 +31,17 @@ class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<NextBankPageBloc, ViewState>(
       builder: (context, state) {
-        return InkWell(
-          onTap: () {
-            print("Tap..+ " + state.toString());
-          },
+        return Align(
+          alignment: Alignment.bottomCenter,
           child: AnimatedContainer(
-            duration: bloc.defaultDuration,
+            width: MediaQuery.of(context).size.width *
+                bloc.pageViewWidth,
+            height: MediaQuery.of(context).size.height *
+                bloc.pageViewHeight,
+            duration: Duration(milliseconds: 500),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -57,8 +54,8 @@ class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
                 ListViewTopBar(),
                 Expanded(
                   child: ConsumerDetailList(
-                    scrollAble: true,
-                    scrollController: scrollController,
+                    scrollAble: (state is PageViewShowState),
+                    scrollController: bloc.listViewScrollController,
                   ),
                 ),
               ],
@@ -67,5 +64,11 @@ class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.listViewScrollController.dispose();
   }
 }

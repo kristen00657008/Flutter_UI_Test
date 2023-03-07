@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/next_bank_page_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/ui/home_page/card_view/card_anim_view.dart';
-import 'package:flutter_ui_test/next_bank_page/ui/home_page/page_view/page_view_origin_layout.dart';
+import 'package:flutter_ui_test/next_bank_page/ui/home_page/page_view/page_view_layout.dart';
 import 'package:flutter_ui_test/next_bank_page/ui/home_page/top_bar_view.dart';
 
 class CardShowStateView extends StatefulWidget {
@@ -37,7 +37,7 @@ class _CardShowStateViewState extends State<CardShowStateView>
           return Stack(
             children: [
               TopBarView(state: state),
-              PageViewOriginLayout(state: state),
+              PageViewLayout(state: state),
               CardAnimView(),
             ],
           );

@@ -13,7 +13,7 @@ class ConsumerDetailList extends StatelessWidget {
     return ListView.separated(
       controller: scrollController,
       itemCount: 20,
-      padding: EdgeInsets.zero,
+      // padding: EdgeInsets.zero,
       physics: scrollAble
           ? AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())
           : NeverScrollableScrollPhysics(),

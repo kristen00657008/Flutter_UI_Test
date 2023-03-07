@@ -47,7 +47,7 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     on<CardHideAnimEvent>(mapEventToState);
   }
 
-  PageController pageController = PageController();
+  PageController pageController = PageController(viewportFraction: 0.92);
 
   final double initWidth = 0.9;
   final double endWidth = 1;
@@ -57,14 +57,20 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
   final double curtainEndHeight = 0.12;
   final double initRadius = 20;
   final double endRadius = 0;
-  final double listViewTopBarInitHeight = 5;
+  final double listViewTopBarInitHeight = 30;
   final double listViewTopBarEndHeight = 0;
+
+  final double listViewTopBarInitMargin = 15;
+  final double listViewTopBarEndMargin = 0;
 
   double pageViewWidth = 0.9;
   double pageViewHeight = 0.51;
   double pageViewRadius = 20;
   double curtainHeight = 0;
-  double listViewTopBarHeight = 5;
+  double listViewTopBarHeight = 30;
+  double listViewTopBarMargin = 15;
+
+  late ScrollController listViewScrollController;
 
   final Duration defaultDuration = Duration(milliseconds: 500);
 
@@ -104,6 +110,7 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
         pageViewRadius = endRadius;
         curtainHeight = curtainEndHeight;
         listViewTopBarHeight = listViewTopBarEndHeight;
+        listViewTopBarMargin = listViewTopBarEndMargin;
         add(PageViewExpandingEvent());
         Future.delayed(defaultDuration, (){
           add(PageViewCompleteExpandEvent());
@@ -114,11 +121,13 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
 
   void closePageView() {
     if(state is! OriginState) {
+      listViewScrollController.jumpTo(0);
       pageViewWidth = initWidth;
       pageViewHeight = initHeight;
       pageViewRadius = initRadius;
       curtainHeight = curtainInitHeight;
       listViewTopBarHeight = listViewTopBarInitHeight;
+      listViewTopBarMargin = listViewTopBarInitMargin;
       add(PageViewClosingEvent());
     }
     Future.delayed(defaultDuration, (){
