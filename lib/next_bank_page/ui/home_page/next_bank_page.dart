@@ -6,6 +6,8 @@ import 'package:flutter_ui_test/next_bank_page/ui/home_page/state_view/origin_st
 import 'package:flutter_ui_test/next_bank_page/ui/home_page/state_view/page_view_show_state_view.dart';
 import 'package:flutter_ui_test/utils/color.dart';
 
+import 'resource/page parameters.dart';
+
 class NextBankPage extends StatefulWidget {
   const NextBankPage({Key? key}) : super(key: key);
 
@@ -13,7 +15,20 @@ class NextBankPage extends StatefulWidget {
   State<NextBankPage> createState() => _NextBankPageState();
 }
 
-class _NextBankPageState extends State<NextBankPage> {
+class _NextBankPageState extends State<NextBankPage>
+    with SingleTickerProviderStateMixin {
+  late NextBankPageBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<NextBankPageBloc>(context);
+    bloc.pageViewAnimController = AnimationController(
+      vsync: this,
+      duration: defaultDuration,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

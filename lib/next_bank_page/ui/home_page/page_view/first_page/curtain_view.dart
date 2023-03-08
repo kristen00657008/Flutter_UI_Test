@@ -14,13 +14,17 @@ class CurtainView extends StatelessWidget {
           onTap: () {},
           child: Align(
             alignment: Alignment.topCenter,
-            child: AnimatedContainer(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * bloc.curtainHeight,
-              duration: Duration(milliseconds: 400),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+            child: AnimatedBuilder(
+              animation: bloc.pageViewAnimController,
+              builder: (context, child) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * bloc.curtainHeightAnim.value,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                );
+              },
             ),
           ),
         );

@@ -39,12 +39,7 @@ class _CardAnimViewState extends State<CardAnimView> {
               turns: bloc.cardRotationAnim,
               child: InkWell(
                 onTap: () {
-                  if(bloc.state is CardShowState) {
-                    bloc.add(CardHideAnimEvent());
-                    bloc.cardAnimController
-                        .reverse()
-                        .whenComplete(() => bloc.add(CardHideEvent()));
-                  }
+                  bloc.closeCardAnim();
                 },
                 child: CardView(),
               ),

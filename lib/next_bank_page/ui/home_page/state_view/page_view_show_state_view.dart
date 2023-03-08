@@ -22,7 +22,7 @@ class _PageViewShowStateViewState extends State<PageViewShowStateView>
   void initState() {
     super.initState();
     bloc = BlocProvider.of<NextBankPageBloc>(context);
-    bloc.openPageView();
+    bloc.openPageViewAnim();
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/next_bank_page_bloc.dart';
+import 'package:flutter_ui_test/next_bank_page/ui/home_page/resource/page%20parameters.dart';
 
 import 'first_page/first_page_view.dart';
 import 'second_page/second_page_view.dart';
@@ -25,7 +26,7 @@ class PageViewLayout extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * bloc.initHeight,
+        height: MediaQuery.of(context).size.height * pageViewInitHeight,
         child: BlocBuilder<NextBankPageBloc, ViewState>(
           builder: (context, state) {
             return PageView.builder(

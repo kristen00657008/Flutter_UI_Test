@@ -15,7 +15,6 @@ class FirstPageExpandedView extends StatefulWidget {
 class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
   late NextBankPageBloc bloc;
 
-
   @override
   void initState() {
     super.initState();
@@ -24,7 +23,7 @@ class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
     bloc.listViewScrollController.addListener(() {
       if (bloc.listViewScrollController.offset < -50) {
         if (bloc.state is PageViewShowState) {
-          bloc.closePageView();
+           bloc.closePageViewAnim();
         }
       }
     });
@@ -36,32 +35,64 @@ class _FirstPageExpandedViewState extends State<FirstPageExpandedView> {
       builder: (context, state) {
         return Align(
           alignment: Alignment.bottomCenter,
-          child: AnimatedContainer(
-            width: MediaQuery.of(context).size.width *
-                bloc.pageViewWidth,
-            height: MediaQuery.of(context).size.height *
-                bloc.pageViewHeight,
-            duration: Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(bloc.pageViewRadius),
-                topRight: Radius.circular(bloc.pageViewRadius),
-              ),
-            ),
-            child: Column(
-              children: [
-                ListViewTopBar(),
-                Expanded(
-                  child: ConsumerDetailList(
-                    scrollAble: (state is PageViewShowState),
-                    scrollController: bloc.listViewScrollController,
+          child: AnimatedBuilder(
+            animation: bloc.pageViewAnimController,
+            builder: (BuildContext context, Widget? child) {
+              return Container(
+                width: MediaQuery.of(context).size.width *
+                    bloc.pageViewWidthAnim.value,
+                height: MediaQuery.of(context).size.height *
+                    bloc.pageViewHeightAnim.value,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(bloc.pageViewRadiusAnim.value),
+                    topRight: Radius.circular(bloc.pageViewRadiusAnim.value),
                   ),
                 ),
-              ],
-            ),
+                child: Column(
+                  children: [
+                    ListViewTopBar(),
+                    Expanded(
+                      child: ConsumerDetailList(
+                        scrollAble: (state is PageViewShowState),
+                        scrollController: bloc.listViewScrollController,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         );
+        // return Align(
+        //   alignment: Alignment.bottomCenter,
+        //   child: AnimatedContainer(
+        //     width: MediaQuery.of(context).size.width *
+        //         bloc.pageViewWidth,
+        //     height: MediaQuery.of(context).size.height *
+        //         bloc.pageViewHeight,
+        //     duration: Duration(milliseconds: 500),
+        //     decoration: BoxDecoration(
+        //       color: Colors.white,
+        //       borderRadius: BorderRadius.only(
+        //         topLeft: Radius.circular(bloc.pageViewRadius),
+        //         topRight: Radius.circular(bloc.pageViewRadius),
+        //       ),
+        //     ),
+        //     child: Column(
+        //       children: [
+        //         ListViewTopBar(),
+        //         Expanded(
+        //           child: ConsumerDetailList(
+        //             scrollAble: (state is PageViewShowState),
+        //             scrollController: bloc.listViewScrollController,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // );
       },
     );
   }

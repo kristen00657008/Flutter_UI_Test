@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'ui/home_page/resource/page parameters.dart';
+
 abstract class ViewChangeEvent {}
 
 class CardShowAnimEvent extends ViewChangeEvent {}
@@ -47,33 +49,19 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     on<CardHideAnimEvent>(mapEventToState);
   }
 
-  PageController pageController = PageController(viewportFraction: 0.92);
-
-  final double initWidth = 0.9;
-  final double endWidth = 1;
-  final double initHeight = 0.51;
-  final double endHeight = 0.88;
-  final double curtainInitHeight = 0;
-  final double curtainEndHeight = 0.12;
-  final double initRadius = 20;
-  final double endRadius = 0;
-  final double listViewTopBarInitHeight = 30;
-  final double listViewTopBarEndHeight = 0;
-
-  final double listViewTopBarInitMargin = 15;
-  final double listViewTopBarEndMargin = 0;
-
-  double pageViewWidth = 0.9;
-  double pageViewHeight = 0.51;
-  double pageViewRadius = 20;
-  double curtainHeight = 0;
-  double listViewTopBarHeight = 30;
-  double listViewTopBarMargin = 15;
-
   late ScrollController listViewScrollController;
 
-  final Duration defaultDuration = Duration(milliseconds: 500);
+  /// Page View 相關
+  PageController pageController = PageController(viewportFraction: 0.92);
+  late AnimationController pageViewAnimController;
+  late Animation<double> pageViewWidthAnim;
+  late Animation<double> pageViewHeightAnim;
+  late Animation<double> curtainHeightAnim;
+  late Animation<double> pageViewRadiusAnim;
+  late Animation<double> listViewTopBarHeightAnim;
+  late Animation<double> listViewTopBarMarginAnim;
 
+  /// Card View 相關
   late AnimationController cardAnimController;
   late Animation<double> cardRotationAnim;
   late Animation<double> cardScaleAnim;
@@ -102,40 +90,61 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     }
   }
 
-  void openPageView() {
-    Future.delayed(Duration.zero, (){
-      if(state is! PageViewShowState) {
-        pageViewWidth = endWidth;
-        pageViewHeight = endHeight;
-        pageViewRadius = endRadius;
-        curtainHeight = curtainEndHeight;
-        listViewTopBarHeight = listViewTopBarEndHeight;
-        listViewTopBarMargin = listViewTopBarEndMargin;
-        add(PageViewExpandingEvent());
-        Future.delayed(defaultDuration, (){
-          add(PageViewCompleteExpandEvent());
-        });
-      }
-    });
+  void openPageViewAnim() {
+    pageViewWidthAnim = Tween<double>(begin: pageViewInitWidth, end: pageViewEndWidth).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    pageViewHeightAnim = Tween<double>(begin: pageViewInitHeight, end: pageViewEndHeight).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    curtainHeightAnim = Tween<double>(begin: curtainInitHeight, end: curtainEndHeight).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    pageViewRadiusAnim = Tween<double>(begin: pageViewInitRadius, end:  pageViewEndRadius).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    listViewTopBarHeightAnim = Tween<double>(begin: listViewTopBarInitHeight, end:  listViewTopBarEndHeight).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    listViewTopBarMarginAnim = Tween<double>(begin: listViewTopBarInitMargin, end:  listViewTopBarEndMargin).animate(
+      CurvedAnimation(
+        parent: pageViewAnimController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    pageViewAnimController.forward().whenComplete(() => add(PageViewCompleteExpandEvent()));
   }
 
-  void closePageView() {
-    if(state is! OriginState) {
+  void closePageViewAnim() {
+    if(state is PageViewShowState) {
       listViewScrollController.jumpTo(0);
-      pageViewWidth = initWidth;
-      pageViewHeight = initHeight;
-      pageViewRadius = initRadius;
-      curtainHeight = curtainInitHeight;
-      listViewTopBarHeight = listViewTopBarInitHeight;
-      listViewTopBarMargin = listViewTopBarInitMargin;
       add(PageViewClosingEvent());
+      pageViewAnimController.reverse().whenComplete(() => add(PageViewCompleteCloseEvent()));
     }
-    Future.delayed(defaultDuration, (){
-      add(PageViewCompleteCloseEvent());
-    });
   }
 
-  void initCardShowAnim() {
+  void openCardAnim() {
     // 設置旋轉動畫
     cardRotationAnim = Tween<double>(begin: 0, end: -0.25).animate(
       CurvedAnimation(
@@ -177,5 +186,12 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     );
 
     cardAnimController.forward().whenComplete(() => add(CardShowEvent()));
+  }
+
+  void closeCardAnim() {
+    if(state is CardShowState) {
+      add(CardHideAnimEvent());
+      cardAnimController.reverse().whenComplete(() => add(CardHideEvent()));
+    }
   }
 }

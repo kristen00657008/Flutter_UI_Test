@@ -1,0 +1,13 @@
+const Duration defaultDuration = Duration(milliseconds: 500);
+const double pageViewInitWidth = 0.9;
+const double pageViewEndWidth = 1;
+const double pageViewInitHeight = 0.51;
+const double pageViewEndHeight = 0.88;
+const double curtainInitHeight = 0;
+const double curtainEndHeight = 0.12;
+const double pageViewInitRadius = 20;
+const double pageViewEndRadius = 0;
+const double listViewTopBarInitHeight = 30;
+const double listViewTopBarEndHeight = 0;
+const double listViewTopBarInitMargin = 15;
+const double listViewTopBarEndMargin = 0;

@@ -26,9 +26,7 @@ class TopBarView extends StatelessWidget {
       children: [
         Spacer(),
         IconButton(
-          onPressed: () {
-            bloc.closePageView();
-          },
+          onPressed: () {},
           icon: Icon(Icons.add),
         ),
         IconButton(
