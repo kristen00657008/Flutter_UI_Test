@@ -6,8 +6,8 @@ class CardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
-      height: 220,
+      width: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         color: Colors.black,
         border: Border.all(color: Colors.yellow, width: 4),

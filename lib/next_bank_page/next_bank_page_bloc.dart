@@ -52,7 +52,7 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
   late ScrollController listViewScrollController;
 
   /// Page View 相關
-  PageController pageController = PageController(viewportFraction: 0.92);
+  late PageController pageController;
   late AnimationController pageViewAnimController;
   late Animation<double> pageViewWidthAnim;
   late Animation<double> pageViewHeightAnim;
@@ -67,6 +67,8 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
   late Animation<double> cardScaleAnim;
   late Animation<Offset> cardPositionAnim;
   late Animation<Offset> pageViewPositionAnim;
+
+  final ValueNotifier<double> cardOffset = ValueNotifier<double>(0);
 
   void mapEventToState(ViewChangeEvent event, Emitter<ViewState> emit) async {
     if (event is PageViewExpandingEvent) {
@@ -156,7 +158,7 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     // 設置縮放動畫
     cardScaleAnim = Tween<double>(
       begin: 1,
-      end: 1.3,
+      end: 2,
     ).animate(
       CurvedAnimation(
         parent: cardAnimController,
@@ -166,8 +168,8 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
 
     // 設置位置動畫
     cardPositionAnim = Tween<Offset>(
-      begin: Offset(0.9, -0.9),
-      end: Offset(0, 0),
+      begin: Offset(0, 0),
+      end: Offset(-0.95, 1.5),
     ).animate(
       CurvedAnimation(
         parent: cardAnimController,

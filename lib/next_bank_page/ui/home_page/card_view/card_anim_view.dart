@@ -27,22 +27,20 @@ class _CardAnimViewState extends State<CardAnimView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Center(
-        child: SlideTransition(
-          position: bloc.cardPositionAnim,
-          child: ScaleTransition(
-            scale: bloc.cardScaleAnim,
-            child: RotationTransition(
-              turns: bloc.cardRotationAnim,
-              child: InkWell(
-                onTap: () {
-                  bloc.closeCardAnim();
-                },
-                child: CardView(),
-              ),
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.1,
+      left: MediaQuery.of(context).size.width * 0.8,
+      child: SlideTransition(
+        position: bloc.cardPositionAnim,
+        child: ScaleTransition(
+          scale: bloc.cardScaleAnim,
+          child: RotationTransition(
+            turns: bloc.cardRotationAnim,
+            child: InkWell(
+              onTap: () {
+                bloc.closeCardAnim();
+              },
+              child: CardView(),
             ),
           ),
         ),

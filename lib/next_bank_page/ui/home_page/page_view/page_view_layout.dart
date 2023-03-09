@@ -6,15 +6,31 @@ import 'package:flutter_ui_test/next_bank_page/ui/home_page/resource/page%20para
 import 'first_page/first_page_view.dart';
 import 'second_page/second_page_view.dart';
 
-class PageViewLayout extends StatelessWidget {
+class PageViewLayout extends StatefulWidget {
   final ViewState state;
 
   const PageViewLayout({Key? key, required this.state}) : super(key: key);
 
   @override
+  State<PageViewLayout> createState() => _PageViewLayoutState();
+}
+
+class _PageViewLayoutState extends State<PageViewLayout> {
+  late NextBankPageBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<NextBankPageBloc>(context);
+    bloc.pageController = PageController(viewportFraction: 0.92);
+    bloc.pageController.addListener(() {
+      bloc.cardOffset.value = bloc.pageController.offset;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<NextBankPageBloc>(context);
-    return (state is CardViewState)
+    return (widget.state is CardViewState)
         ? SlideTransition(
             position: bloc.pageViewPositionAnim,
             child: layout(context, bloc),
@@ -44,5 +60,11 @@ class PageViewLayout extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // bloc.pageController.dispose();
   }
 }
