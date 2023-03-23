@@ -35,12 +35,19 @@ class _CardShowStateViewState extends State<CardShowStateView>
     return SafeArea(
       child: BlocBuilder<NextBankPageBloc, ViewState>(
         builder: (context, state) {
-          return Stack(
-            children: [
-              TopBarView(state: state),
-              PageViewLayout(state: state),
-              CardAnimView(),
-            ],
+          return InkWell(
+            onTap: (){
+              bloc.closeCardAnim();
+            },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Stack(
+              children: [
+                TopBarView(state: state),
+                PageViewLayout(state: state),
+                CardAnimView(),
+              ],
+            ),
           );
         },
       ),

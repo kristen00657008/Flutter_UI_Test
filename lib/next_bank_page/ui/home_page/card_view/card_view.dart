@@ -7,7 +7,7 @@ class CardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.height * 0.3,
-      height: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(
         color: Colors.black,
         border: Border.all(color: Colors.yellow, width: 4),

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/next_bank_page_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/ui/home_page/card_view/card_view.dart';
 
+import 'card_position_view.dart';
+
 class CardAnimView extends StatefulWidget {
   const CardAnimView({Key? key}) : super(key: key);
 
@@ -27,21 +29,14 @@ class _CardAnimViewState extends State<CardAnimView> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height * 0.1,
-      left: MediaQuery.of(context).size.width * 0.8,
+    return CardPositionedView(
       child: SlideTransition(
         position: bloc.cardPositionAnim,
         child: ScaleTransition(
           scale: bloc.cardScaleAnim,
           child: RotationTransition(
             turns: bloc.cardRotationAnim,
-            child: InkWell(
-              onTap: () {
-                bloc.closeCardAnim();
-              },
-              child: CardView(),
-            ),
+            child: CardView(),
           ),
         ),
       ),

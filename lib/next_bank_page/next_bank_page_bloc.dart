@@ -169,7 +169,7 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     // 設置位置動畫
     cardPositionAnim = Tween<Offset>(
       begin: Offset(0, 0),
-      end: Offset(-0.95, 1.5),
+      end: Offset(-1.05, 1),
     ).animate(
       CurvedAnimation(
         parent: cardAnimController,

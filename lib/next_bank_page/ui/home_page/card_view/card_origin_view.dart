@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/next_bank_page_bloc.dart';
 import 'package:flutter_ui_test/next_bank_page/ui/home_page/card_view/card_view.dart';
 
+import 'card_position_view.dart';
+
 class CardOriginView extends StatefulWidget {
   const CardOriginView({Key? key}) : super(key: key);
 
@@ -25,9 +27,7 @@ class _CardOriginViewState extends State<CardOriginView>
     return ValueListenableBuilder<double>(
       valueListenable: bloc.cardOffset,
       builder: (BuildContext context, offset, Widget? child) {
-        return Positioned(
-          top: MediaQuery.of(context).size.height * 0.1,
-          left: MediaQuery.of(context).size.width * 0.8,
+        return CardPositionedView(
           child: Transform.scale(
             scale: offset <= 30 ? 1 : (30 / offset),
             child: InkWell(
