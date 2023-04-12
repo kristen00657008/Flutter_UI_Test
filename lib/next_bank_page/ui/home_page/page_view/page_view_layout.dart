@@ -46,6 +46,7 @@ class _PageViewLayoutState extends State<PageViewLayout> {
         child: BlocBuilder<NextBankPageBloc, ViewState>(
           builder: (context, state) {
             return PageView.builder(
+              physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
               controller: bloc.pageController,
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
