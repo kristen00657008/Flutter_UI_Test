@@ -26,8 +26,10 @@ class TopBarView extends StatelessWidget {
       children: [
         Spacer(),
         IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.add),
+          onPressed: () {
+            bloc.refreshData();
+          },
+          icon: Icon(Icons.refresh),
         ),
         IconButton(
           onPressed: () {},

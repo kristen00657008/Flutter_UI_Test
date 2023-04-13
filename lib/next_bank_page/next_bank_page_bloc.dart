@@ -21,21 +21,27 @@ class PageViewClosingEvent extends ViewChangeEvent {}
 
 class PageViewCompleteCloseEvent extends ViewChangeEvent {}
 
+class RefreshDataEvent extends ViewChangeEvent {}
+
+class RefreshDataFinishEvent extends ViewChangeEvent {}
+
 abstract class ViewState {}
 
-abstract class CardViewState extends ViewState {}
+class CardViewState extends ViewState {}
 
 class CardShowState extends CardViewState {}
 
 class CardAnimatingState extends CardViewState {}
 
-abstract class PageViewState extends ViewState {}
+class PageViewState extends ViewState {}
 
 class PageViewShowState extends PageViewState {}
 
 class PageViewAnimatingState extends PageViewState {}
 
 class OriginState extends ViewState {}
+
+class RefreshDataState extends OriginState {}
 
 class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
   NextBankPageBloc() : super(OriginState()) {
@@ -47,6 +53,8 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
     on<CardHideEvent>(mapEventToState);
     on<CardShowEvent>(mapEventToState);
     on<CardHideAnimEvent>(mapEventToState);
+    on<RefreshDataEvent>(mapEventToState);
+    on<RefreshDataFinishEvent>(mapEventToState);
   }
 
   late ScrollController listViewScrollController;
@@ -87,6 +95,10 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
       emit(OriginState());
     } else if (event is CardHideAnimEvent) {
       emit(CardAnimatingState());
+    } else if (event is RefreshDataEvent) {
+      emit(RefreshDataState());
+    } else if (event is RefreshDataFinishEvent) {
+      emit(OriginState());
     } else {
       emit(OriginState());
     }
@@ -195,5 +207,12 @@ class NextBankPageBloc extends Bloc<ViewChangeEvent, ViewState> {
       add(CardHideAnimEvent());
       cardAnimController.reverse().whenComplete(() => add(CardHideEvent()));
     }
+  }
+
+  void refreshData() {
+    add(RefreshDataEvent());
+    Future.delayed(Duration(seconds: 3), () {
+      add(RefreshDataFinishEvent());
+    });
   }
 }

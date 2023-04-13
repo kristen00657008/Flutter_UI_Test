@@ -15,51 +15,18 @@ class ConsumerDetailList extends StatefulWidget {
 }
 
 class _ConsumerDetailListState extends State<ConsumerDetailList> {
-  bool showData = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(Duration(seconds: 3), () {
-      setState(() {
-        showData = true;
-      });
-    });
-  }
-
-  void refresh() {
-    setState(() {
-      showData = false;
-    });
-
-    Future.delayed(Duration(seconds: 3), () {
-      setState(() {
-        showData = true;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        refresh();
+    return ListView.separated(
+      controller: widget.scrollController,
+      itemCount: 20,
+      physics: widget.scrollAble
+          ? AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())
+          : NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return ConsumerDetailListItem();
       },
-      child: ListView.separated(
-        controller: widget.scrollController,
-        itemCount: 20,
-        // padding: EdgeInsets.zero,
-        physics: widget.scrollAble
-            ? AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())
-            : NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return ConsumerDetailListItem(
-            showData: showData,
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => Divider(),
-      ),
+      separatorBuilder: (BuildContext context, int index) => Divider(),
     );
   }
 }
